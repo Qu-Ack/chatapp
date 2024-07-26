@@ -27,7 +27,7 @@ func (p *Pool) Start() {
 			log.Println("Size of connection pool : ", len(p.Clients))
 			for client, _ := range p.Clients {
 				log.Println(client)
-				client.Conn.WriteJSON(Message{Type: 1, Body: "New User Joined ...."})
+				client.Conn.WriteJSON(Message{Type: 3, Body: "New User Joined ...."})
 			}
 			break
 
@@ -35,7 +35,7 @@ func (p *Pool) Start() {
 			delete(p.Clients, client)
 			log.Println("Size of connection pool : ", len(p.Clients))
 			for client, _ := range p.Clients {
-				client.Conn.WriteJSON(Message{Type: 1, Body: "A User left ...."})
+				client.Conn.WriteJSON(Message{Type: 3, Body: "A User left ...."})
 			}
 			break
 		case message := <-p.Broadcast:
