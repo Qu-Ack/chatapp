@@ -26,6 +26,8 @@ func main() {
 }
 
 func handleRoutes(muxHandler *http.ServeMux) {
+	pool := newPool()
+	go pool.Start()
 
 	// just so we can check if server is up and running or not.....
 	muxHandler.HandleFunc("/healthz", func(w http.ResponseWriter, r *http.Request) {
@@ -33,6 +35,8 @@ func handleRoutes(muxHandler *http.ServeMux) {
 		w.Write([]byte("ok"))
 	})
 
-	muxHandler.HandleFunc("/ws", handleWs)
+	muxHandler.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
+		handleWs(pool, w, r)
+	})
 
 }
